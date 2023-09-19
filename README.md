@@ -81,3 +81,7 @@ Step 4: Hosting assetlinks.json file
 ```
     ./gradlew signingReport
 ```
+----------------------------------------
+Documennt:
+https://docs.flutter.dev/cookbook/navigation/set-up-app-links
+
