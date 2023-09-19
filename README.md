@@ -58,13 +58,14 @@ Step 4: Hosting assetlinks.json file
 
 1. create file assetlinks.json
    Host an assetlinks.json file in using a web server with a domain that you own(yourWebiste\.well-known\assetlinks.json).
-
+   
+   Replace com.example.deeplink_demo with your app name.
 ```
     [{
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
         "namespace": "android_app",
-        "package_name": "com.example.deeplink_cookbook",
+        "package_name": "com.example.deeplink_demo",
         "sha256_cert_fingerprints":
         ["yourSha256"]
     }
