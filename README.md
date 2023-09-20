@@ -9,51 +9,76 @@ Step 1: Add the go_router package, run flutter pub add:
 Step 2: To handle the routing, create a GoRouter object in the main.dart file:
 
 ```
+    import 'package:deeplink_demo/driver_screen.dart';
     import 'package:flutter/material.dart';
     import 'package:go_router/go_router.dart';
-
+    
     void main() => runApp(MaterialApp.router(routerConfig: router));
-
+    
     final router = GoRouter(
-    routes: [
+      routes: [
         GoRoute(
-        path: '/',
-        builder: (_, __) => Scaffold(
+          path: '/',
+          builder: (_, __) => Scaffold(
             appBar: AppBar(title: const Text('Home Screen')),
-            body: const Center(child: Text("Hello!")),
-        ),
-        routes: [
+            body: const Center(child: Text("Hello! Home Screen")),
+          ),
+          routes: [
             GoRoute(
-            path: 'details',
-            builder: (_, __) => Scaffold(
-                appBar: AppBar(title: const Text('Details Screen')),
+              path: 'details',
+              builder: (_, __) => Scaffold(
+                appBar: AppBar(title: const Text('About Screen')),
+                body: const Center(child: Text("Hello! About Screen")),
+              ),
             ),
+            GoRoute(
+              path: 'driver',
+              builder: (context, state) => DriverSreeen(goRouterState: state),
             ),
-        ],
+          ],
         ),
-    ],
+      ],
     );
 ```
 
 Step 3: Modify AndroidManifest.xml
 
-1. Open the Flutter project with VS Code or Android Studio.
-2. Navigate to android/app/src/main/AndroidManifest.xml file.
-3. Add the following metadata tag and intent filter inside the <activity> tag with .MainActivity.
-
+## Use for Android
+Navigate to android/app/src/main/AndroidManifest.xml file.
 Replace example.com with your own web domain.
+Replace myapp with your app name.
 
 ```
-    <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
-    <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="http" android:host="example.com" />
-        <data android:scheme="https" />
-    </intent-filter>
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="hostingdemo-c9502.web.app" />
+                <data android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="myapp" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
 ```
-
+## Use for IOS
+Navigate to ios/Runner/info.plist file.
+```
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleURLName</key>
+		<string>MyApp</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>myapp</string>
+		</array>
+	</dict>
+	</array>	
+```
 Step 4: Hosting assetlinks.json file
 
 1. create file assetlinks.json
@@ -81,6 +106,13 @@ Step 4: Hosting assetlinks.json file
 
 ```
     ./gradlew signingReport
+```
+3. Set up an a tag for your website so the link opens to the app
+
+Replace myapp with your app name.
+```
+    <a href="myapp://" style="font-size: 32px;">Open My App</a> <br>
+    <a href="myapp:/driver?id=1&name=tuan" style="font-size: 32px;">Driver</a>
 ```
 ----------------------------------------
 Documennt:
